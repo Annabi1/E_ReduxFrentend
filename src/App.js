@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import CopyRight from './Component/CopyRight';
 import Navbar from './Component/Navbar';
+import Signin from'./Component/Signin'
 import Products from './Component/Products';
 import { Fragment } from 'react';
 import React, { useState } from 'react';
-import Modal from './Component/Modal';
 
 const Categories = ({loadCategory}) => {
   const [posts, setPosts] = useState([]);
@@ -32,7 +32,7 @@ const Categories = ({loadCategory}) => {
 
                     <ul key={index}>
                                       
-                       <li onClick={()=>loadCategory(item)}>
+                       <li onClick={()=>loadCategory(item.categoryId)}>
                       
                       {item?.name}
                       </li>
@@ -53,17 +53,7 @@ const Categories = ({loadCategory}) => {
 };
 
 const  App = () => {
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-     axios
-        .get('http://localhost:8083/api/product/')
-        .then((response) => {
-         
-           setPosts(response.data);
-    
-
-        })
-  }, []);
+ 
   const [category, setCategory] = useState(1);
   const loadCategory=(i)=>
   {
@@ -73,6 +63,7 @@ const  App = () => {
 
 
     <div  id="image">
+      <Signin/>
 <Navbar />
       <div class="container">
         <br></br>
@@ -83,13 +74,12 @@ const  App = () => {
 
           <div class="col-sm">
             <div className='row'>
-            <Products data={posts} category={category}  />    </div>
+            <Products  category={category}  />    </div>
 
             </div>
         </div>
       </div>
       <CopyRight/>
-     
     </div>
 
 

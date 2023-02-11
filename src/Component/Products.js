@@ -1,15 +1,28 @@
 import * as React from 'react';
 import './../styles/App.css';
 import  { useState } from 'react';
-const Products = props => {
+import { useEffect } from 'react';
+import axios from 'axios';
+const Products = ({category}) => {
+  const id=category
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+     axios
+    . get(`http://localhost:8083/api/category/products/${id}`)
+        .then((response) => {
+         
+           setPosts(response.data);
+    
 
-  const{data,category}=props
+        })
+  }, [category]);
+
   
 
    return (
       <div class="contenair " >
   <div className="row">
-    {data.filter(cat=>category).map((item, i) => {
+    {posts.map((item, i) => {
 
       return (
         <div className="col-sm-4">
@@ -29,38 +42,43 @@ const Products = props => {
               <p>
                   {item.price}€
               </p>
-              <button className="btn btn-warning btn-sm" data-toggle="modal" data-target="#mo">voir produit</button>
-           
+              <button className="btn btn-warning btn-sm" data-toggle="modal" data-target ="#mo">voir produit</button>
+
 
             </div>
           </div>
         </div>
+        <Modal item={item} />
+
       </div>
-      <Modal item={item} />
+
     </div>
       );
-    })}
+
+    }
+    
+    
+    )}
   </div>
 
 </div>
    )
 };
 export const Modal = ({item}) => {
-
+console.log(item.productId)
  
   return (
     <div
-      class="modal fade "
-      id="mo"
-      data-backdrop="static"
+      class="modal  "
+      id="mo"      data-backdrop="static"
       tabIndex="-1"
       role="dialog"
       aria-labelledby="staticBackdropLabel"
       aria-hidden="true">
-      <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-dialog " role="document">
         <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">fgxhfgh</h5>
+              <h5 class="modal-title" >{item.name}</h5>
             <button
               type="button"
               class="close"
@@ -76,40 +94,24 @@ export const Modal = ({item}) => {
                 <img
                   width="170"
                   height="170"
-                  src={
-                    process.env.PUBLIC_URL +
-                    `../assets/`
-                  }
+                  src={process.env.PUBLIC_URL + `../assets/${item.image}`}
+
                   alt="Citron"
                 />
               </div>
-
-              <div className="col-sm">
-                <p class="lead">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore
-                </p>
-                  <h3 className="price">ghghgj</h3> <br />
-                <div
-                  className="btn-group"
-                  role="group"
-                  aria-label="Basic example"
-                >
-                  <button
-                   
-                    type="button"
-                    className="btn btn-secondary">
-                    -
-                  </button>
-                    <span className="btn btn-light qty"></span>
-                  <button
-                  
-                    type="button"
-                    className="btn btn-secondary">
-                    +
-                  </button>
-                </div>
-                <br />
+<br></br>
+<div className="col-sm-4">
+               
+                  <h3 className="price">{item.category.name} </h3> <br />
+              
+                 
+             
+             
+               
+                  <h3 className="price">{item.price} $</h3> <br />
+              
+                 
+             
               </div>
             </div>
           </div>
@@ -123,7 +125,7 @@ export const Modal = ({item}) => {
             </button>
             <button
               type="button"
-              class="btn btn-success"
+              class="btn btn-warning"
               data-dismiss="modal"
             >
               Add to Cart
