@@ -7,79 +7,21 @@ import Signin from'./Component/Signin'
 import Products from './Component/Products';
 import { Fragment } from 'react';
 import React, { useState } from 'react';
-
-const Categories = ({loadCategory}) => {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-     axios
-        .get('http://localhost:8083/api/category/')
-        .then((response) => {
-           setPosts(response.data);
-        })
-
-  }, []);
-
-  return (
-
-
-       
-        <div class="col-sm-2 sidebar" >
-        {posts.map((item, index) => {
-           return (
-
-            
-
-                    <ul key={index}>
-                                      
-                       <li onClick={()=>loadCategory(item.categoryId)}>
-                      
-                      {item?.name}
-                      </li>
-                       </ul>  
-                           
-
-
-
-
-
-
-           
-           );
-        })}
-     </div>
-     
-  )
-};
+import Home from './Component/Home'
 
 const  App = () => {
- 
-  const [category, setCategory] = useState(1);
-  const loadCategory=(i)=>
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const verifLogged=(i)=>
   {
-     setCategory(i)
+    setLoggedIn(i)
   }
+
+ 
   return (
 
-
-    <div  id="image">
-      <Signin/>
-<Navbar />
-      <div class="container">
-        <br></br>
-        <div class="row">
-          <div class="col-sm-2">
-            <Categories loadCategory={loadCategory} />
-          </div>
-
-          <div class="col-sm">
-            <div className='row'>
-            <Products  category={category}  />    </div>
-
-            </div>
-        </div>
-      </div>
-      <CopyRight/>
+    <div>
+      <Signin 
+      />
     </div>
 
 

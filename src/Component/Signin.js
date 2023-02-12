@@ -42,7 +42,7 @@ export default function Signin() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.email}
-                  placeholder="Enter email id / username"
+                  placeholder="Enter username  "
                   className="form-control inp_text"
                   id="email"
                 />
